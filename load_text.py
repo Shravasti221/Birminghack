@@ -11,6 +11,11 @@ def unique_speakers(text_list):
     return list(speakers)
 
 def parse_text(file_path):
+    """
+    Reads the story file and parses it into a list of tuples containing (index, speaker, speech)
+    Returns the list of tuples and the unique speakers
+    Takes the path to the story file as input
+    """
     with open(file_path, 'r') as file:
         text = file.read()
 
@@ -28,9 +33,5 @@ def parse_text(file_path):
                 count += 1
         else:
             continue
-
     
     return text_list, unique_speakers(text_list)
-
-# xx = parse_text(file_path)
-# print(xx[0])
