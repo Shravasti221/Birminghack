@@ -32,5 +32,5 @@ def parse_text(file_path):
     
     return text_list, unique_speakers(text_list)
 
-xx = parse_text(file_path)
-print(xx[0])
+# xx = parse_text(file_path)
+# print(xx[0])

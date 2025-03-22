@@ -14,8 +14,10 @@ df_voices = pd.read_csv('voices.csv')
 voice_id_list = df_voices["voice_id"]
 voice_name_list = df_voices["name"]
 
+# returning text list containing (index, speaker, speech) and unique speakers
 text, unique_speakers = parse_text(os.path.join(cwd,"sample_story.txt"))
 
+# random voice assignment to speakers
 voice_assigment = {}
 for c, speaker in enumerate(unique_speakers):
     voice_assigment[speaker] = voice_id_list[c]
