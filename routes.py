@@ -1,7 +1,7 @@
 import os
 from flask import request, render_template, send_file, jsonify
 from werkzeug.utils import secure_filename
-from utils import extract_text_from_pdf, call_groq_api, process_voices, extract_and_save_text, process_large_text
+from utils import extract_text_from_pdf, call_groq_api, process_voices, extract_and_save_text
 from config import Config
 
 def init_routes(app):
@@ -23,7 +23,7 @@ def init_routes(app):
         file.save(filepath)
 
         text = extract_text_from_pdf(filepath)
-        groq_response=process_large_text(text)
+        groq_response=call_groq_api(text)
         response_text=extract_and_save_text(groq_response)
 
         wav_path = process_voices(response_text)
