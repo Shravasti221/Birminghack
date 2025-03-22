@@ -2,7 +2,6 @@ from pyneuphonic import Neuphonic, TTSConfig
 from pyneuphonic.player import AsyncAudioPlayer
 import os
 from dotenv import load_dotenv
-import asyncio
 from pyneuphonic.player import AudioPlayer
 import pandas as pd
 from load_text import parse_text

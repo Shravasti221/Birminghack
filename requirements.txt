@@ -1,3 +1,9 @@
-openai-whisper
+dotenv
+requests
+Flask
+PyPDF2
+groq
+numpy
+pandas
 ffmpeg
 pyneuophonic
