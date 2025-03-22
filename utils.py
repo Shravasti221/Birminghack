@@ -67,12 +67,10 @@ def extract_and_save_text(input_text, filename="groq_output.txt"):
     match = re.search(r"</think>\s*\(.*?\)\s*", input_text)
     if match:
         extracted_text = input_text[match.end():].strip()
-        # with open(filename, "w", encoding="utf-8") as f:
-        #     f.write(extracted_text)
         return extracted_text
     else:
-        print(f"Could not extract text from input: {input_text}")
-        return None
+        # print(f"Could not extract text from input: {input_text}")
+        return input_text
 
 def process_voices(text):
     """
