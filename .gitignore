@@ -2,3 +2,6 @@
 /static
 /__pycache__
 .DS_Store
+/audio_samples/*
+final_merged_output.wav
+/output_audio/*

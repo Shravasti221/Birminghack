@@ -12,6 +12,40 @@ body {
 h3{
     text-shadow:1px 1px 1px #fff;
 }
+input {
+    padding:20px
+}
+label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+label:hover {
+    background-color: #0056b3;
+}
+
+/* Upload button */
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+
 /* Start  styling the page */
 .container-audio {
     width: 66%;
