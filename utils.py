@@ -5,6 +5,7 @@ import re
 import numpy as np
 from groq import Groq
 from config import Config
+from nltk.tokenize import sent_tokenize
 from generate_audio_files import generate_audio_files
 
 def extract_text_from_pdf(pdf_path):
@@ -13,10 +14,32 @@ def extract_text_from_pdf(pdf_path):
         text = "\n".join(page.extract_text() or "" for page in reader.pages)
     return text.strip()
 
+def process_large_text(text, chunk_size=50, overlap=5, process_fn=lambda x: x.upper()):
+    sentences = sent_tokenize(text) 
+    chunks = []
+    i = 0
+
+    while i < len(sentences):
+        chunk = ' '.join(sentences[i:i + chunk_size])
+        processed_chunk = call_groq_api(chunk)  
+        chunks.append(processed_chunk)
+        i += chunk_size - overlap
+    seen_sentences = set()
+    final_output = []
+
+    for chunk in chunks:
+        chunk_sentences = sent_tokenize(chunk)  
+        for sentence in chunk_sentences:
+            if sentence not in seen_sentences:  
+                final_output.append(sentence)
+                seen_sentences.add(sentence)
+
+    return ' '.join(final_output)  
 
 def call_groq_api(text):
     client = Groq(api_key = os.environ.get("GROQ_API_KEY"))
     clean_text = text.replace("\n", "")
+    
     completion = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=[
