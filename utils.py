@@ -1,12 +1,14 @@
 import os
 import PyPDF2
-import wave
 import re
-import numpy as np
 from groq import Groq
 from config import Config
+import nltk
+from generator_async_SSE import generate_audio_files
 from nltk.tokenize import sent_tokenize
-from generate_audio_files import generate_audio_files
+nltk.download('punkt')
+
+
 
 def extract_text_from_pdf(pdf_path):
     with open(pdf_path, "rb") as f:
@@ -71,10 +73,14 @@ def extract_and_save_text(input_text, filename="groq_output.txt"):
         return filename
     return None
 
-
 def process_voices(text):
     """
     Processes the text and generates audio files
     Returns the path to the final merged audio file
     """
-    return generate_audio_files(text)
+    file_path = os.path.join(os.getcwd(), "sample_story.txt")
+    
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write(text)
+
+    return generate_audio_files(file_path)
