@@ -36,12 +36,8 @@ def generate_audio_files(story_text_path):
 
             async with AsyncAudioPlayer() as player:
                 response = sse.send(speech, tts_config=tts_config)
-                await async_save_audio(response, os.path.join(cwd, "output_audio", f"output_{index}.wav"))
+                await async_save_audio(response, os.path.join(cwd, "output_audio", f"output_{str(index).zfill(6)}.wav"))
 
     asyncio.run(main())
     final_audio_path = merge_audio_files()
     return final_audio_path
-
-
-path = generate_audio_files(os.path.join(os.getcwd(), "sample_story.txt"))
-print(path)
