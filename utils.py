@@ -33,7 +33,7 @@ as explained above, THE OUTPUT SHOULD START WITH:
 
         ],
         temperature=1,
-        max_completion_tokens=1024,
+        max_completion_tokens=100000,
         top_p=1,
         stream=False
     )
