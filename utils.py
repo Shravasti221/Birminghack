@@ -17,7 +17,9 @@ def extract_text_from_pdf(pdf_path):
     return text.strip()
 
 def process_large_text(text, chunk_size=50, overlap=5, process_fn=lambda x: x.upper()):
-    sentences = sent_tokenize(text) 
+    clean_text = text.replace("\n", "")
+
+    sentences = sent_tokenize(clean_text) 
     chunks = []
     i = 0
 
@@ -39,9 +41,7 @@ def process_large_text(text, chunk_size=50, overlap=5, process_fn=lambda x: x.up
     return ' '.join(final_output)  
 
 def call_groq_api(text):
-    client = Groq(api_key = os.environ.get("GROQ_API_KEY"))
-    clean_text = text.replace("\n", "")
-    
+    client = Groq(api_key = os.environ.get("GROQ_API_KEY"))    
     completion = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=[
@@ -54,11 +54,11 @@ and so on for n characters. Assign all background details and text with no speak
 also answer to the point. don't introduce the answer or ask if further assistance is needed at the end. Just stick to the point. (MAKE SURE THAT YOU STICK TO THESE INSTRUCTIONS. I DON'T NEED ANY EXTRA INFORMATION. DON'T EXPLAIN BACK THE TASK TO ME AGAIN,OR PUT HEADINGS FOR THE TWO TASKS) also donot put gestures like 'thinking', 'nodding', 'smiling' to character dialogues. assign such things to narrator. only assign spoken words to character
 as explained above, THE OUTPUT SHOULD START WITH:
 
-(character1, character2,...charactern)\n\n\n"""+clean_text}
+(character1, character2,...charactern)\n\n\n"""+text}
 
         ],
         temperature=1,
-        max_completion_tokens=100000,
+        max_completion_tokens=20000,
         top_p=1,
         stream=False
     )
