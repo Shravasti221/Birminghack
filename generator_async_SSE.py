@@ -5,8 +5,7 @@ from dotenv import load_dotenv
 import asyncio
 import pandas as pd
 from load_text import parse_text
-from pyneuphonic import save_audio
-from pyneuphonic.player import async_save_audio
+from pyneuphonic._utils import async_save_audio
 
 cwd = os.getcwd()
 load_dotenv(dotenv_path=os.path.join(cwd, ".env"))
@@ -22,8 +21,8 @@ for c, speaker in enumerate(unique_speakers):
     voice_assigment[speaker] = voice_id_list[c]
 
 async def main():
+    
     client = Neuphonic(api_key=os.environ.get('NEUPHONIC_API_KEY'))
-
     sse = client.tts.AsyncSSEClient()
 
     for line in text:
@@ -36,11 +35,6 @@ async def main():
 
         async with AsyncAudioPlayer() as player:
             response = sse.send(speech, tts_config=tts_config)
-
-            # await player.play(response)
-
-            # player.save_audio(f"output_{index}.wav")  # save the audio to a .wav file
-
-            await async_save_audio(response, os.path.join(cwd, f"output_{index}.wav"))
+            await async_save_audio(response, os.path.join(cwd, "output_audio", f"output_{index}.wav"))
 
 asyncio.run(main())
