@@ -16,30 +16,6 @@ def extract_text_from_pdf(pdf_path):
         text = "\n".join(page.extract_text() or "" for page in reader.pages)
     return text.strip()
 
-def process_large_text(text, chunk_size=50, overlap=5, process_fn=lambda x: x.upper()):
-    clean_text = text.replace("\n", "")
-
-    sentences = sent_tokenize(clean_text) 
-    chunks = []
-    i = 0
-
-    while i < len(sentences):
-        chunk = ' '.join(sentences[i:i + chunk_size])
-        processed_chunk = call_groq_api(chunk)  
-        chunks.append(processed_chunk)
-        i += chunk_size - overlap
-    seen_sentences = set()
-    final_output = []
-
-    for chunk in chunks:
-        chunk_sentences = sent_tokenize(chunk)  
-        for sentence in chunk_sentences:
-            if sentence not in seen_sentences:  
-                final_output.append(sentence)
-                seen_sentences.add(sentence)
-
-    return ' '.join(final_output)  
-
 def call_groq_api(text):
     client = Groq(api_key = os.environ.get("GROQ_API_KEY"))    
     completion = client.chat.completions.create(
@@ -63,6 +39,32 @@ as explained above, THE OUTPUT SHOULD START WITH:
         stream=False
     )
     return completion.choices[0].message.content
+
+
+def process_large_text(text, chunk_size=50, overlap=1, process_fn=lambda x: x.upper()):
+    clean_text = text.replace("\n", "")
+
+    sentences = sent_tokenize(clean_text) 
+    chunks = []
+    i = 0
+
+    while i < len(sentences):
+        chunk = ' '.join(sentences[i:i + chunk_size])
+        processed_chunk = call_groq_api(chunk)  
+        chunks.append(processed_chunk)
+        i += chunk_size - overlap
+    seen_sentences = set()
+    final_output = []
+
+    for chunk in chunks:
+        chunk_sentences = sent_tokenize(chunk)  
+        for sentence in chunk_sentences:
+            if sentence not in seen_sentences:  
+                final_output.append(sentence)
+                seen_sentences.add(sentence)
+
+    return ' '.join(final_output)  
+
 
 def extract_and_save_text(input_text, filename="groq_output.txt"):
     match = re.search(r"</think>\s*\(.*?\)\s*", input_text)
