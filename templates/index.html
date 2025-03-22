@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask PDF to WAV</title>
+    <link href='https://fonts.googleapis.com/css?family=Allerta' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+    <h1>Dynamic Storytelling</h1>
+
+    <h2>Upload a PDF</h2>
+    <input type="file" id="pdfUpload">
+    <button onclick="uploadPDF()">Upload</button>
+
+
+
+    <div class="container">
+        <form class="form">
+          <div class="file-upload-wrapper" data-text="Select your file!">
+            <input name="file-upload-field" type="file" class="file-upload-field" value="">
+          </div>
+        </form>
+      </div>
+    
+    <h3>Generated Audio</h3>
+    <audio id="audioPlayer" controls style="display: none;"></audio>
+
+    <script>
+        function uploadPDF() {
+            let fileInput = document.getElementById("pdfUpload");
+            if (!fileInput.files.length) {
+                alert("Select a PDF file first.");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            fetch("/upload", { method: "POST", body: formData })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.wav_file) {
+                        let audioPlayer = document.getElementById("audioPlayer");
+                        audioPlayer.src = "/audio/" + data.wav_file;
+                        audioPlayer.style.display = "block";
+                    } else {
+                        alert("Error processing file.");
+                    }
+                })
+                .catch(err => console.error("Upload error:", err));
+        }
+    </script>
+</body>
+</html>

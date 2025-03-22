@@ -1,0 +1,6 @@
+dotenv
+requests
+Flask
+PyPDF2
+groq
+numpy
