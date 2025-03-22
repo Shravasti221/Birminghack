@@ -1,0 +1,13 @@
+id,name,tags,created_at,updated_at,type,lang_code,voice_id
+f8698a9e-947a-43cd-a897-57edd4070a78,Albert,"['Male', 'British']",2024-12-19T17:08:11.663591+00:00,2024-12-19T17:08:11.663591+00:00,Standard,en,f8698a9e-947a-43cd-a897-57edd4070a78
+e564ba7e-aa8d-46a2-96a8-8dffedade48f,Annie,"['Female', 'Twenties', 'American', 'Relaxing']",2024-12-16T16:02:27.210116+00:00,2024-12-16T16:02:43.867509+00:00,Standard,en,e564ba7e-aa8d-46a2-96a8-8dffedade48f
+fc854436-2dac-4d21-aa69-ae17b54e98eb,Emily,"['Female', 'American', 'Conversational']",2025-02-10T15:37:36.490487+00:00,2025-02-10T15:37:36.490487+00:00,Standard,en,fc854436-2dac-4d21-aa69-ae17b54e98eb
+8e9c4bc8-3979-48ab-8626-df53befc2090,Holly,"['Female', 'American', 'Midwestern']",2024-12-16T16:02:27.210116+00:00,2024-12-16T16:02:43.867509+00:00,Standard,en,8e9c4bc8-3979-48ab-8626-df53befc2090
+6ffede2d-d96e-4a9b-9d4d-e654b8ef4cf2,James,"['Male', 'Thirties', 'American']",2024-12-16T16:02:27.210116+00:00,2024-12-16T16:02:43.867509+00:00,Standard,en,6ffede2d-d96e-4a9b-9d4d-e654b8ef4cf2
+06fde793-8929-45f6-8a87-643196d376e4,Jo,"['Female', 'Thirties', 'American']",2024-12-16T16:02:27.210116+00:00,2024-12-16T16:02:43.867509+00:00,Standard,en,06fde793-8929-45f6-8a87-643196d376e4
+79ffd956-872a-4b89-b25b-d99bb4335b82,Liz,"['Female', 'British']",2024-12-19T17:11:28.454986+00:00,2024-12-19T17:11:28.454986+00:00,Standard,en,79ffd956-872a-4b89-b25b-d99bb4335b82
+ebf2c88e-e69d-4eeb-9b9b-9f3a648787a5,Marcus,"['Male', 'American']",2024-12-16T16:02:27.210116+00:00,2024-12-16T16:02:43.867509+00:00,Standard,en,ebf2c88e-e69d-4eeb-9b9b-9f3a648787a5
+b19687fd-c5c9-4bda-9d52-756c3b10c88e,Miles,"['Male', 'American', 'Fourties', 'Narrator']",2024-12-16T16:02:27.210116+00:00,2024-12-16T16:02:43.867509+00:00,Standard,en,b19687fd-c5c9-4bda-9d52-756c3b10c88e
+6c8ad62b-1356-42df-ac82-706590b7ff43,Richard,"['Male', 'American', 'Narrator']",2025-02-10T15:56:38.155228+00:00,2025-02-10T15:56:38.155228+00:00,Standard,en,6c8ad62b-1356-42df-ac82-706590b7ff43
+f2185de7-e09b-46d7-9b20-8c82ef90524f,Wyatt,"['Male', 'American']",2024-12-16T16:02:27.210116+00:00,2024-12-16T16:02:43.867509+00:00,Standard,en,f2185de7-e09b-46d7-9b20-8c82ef90524f
+03fee039-faf2-4be0-9dd7-4d7351488f2d,Tom Cruise,"['Male', 'American', 'English']",2025-03-22T16:36:13.315586+00:00,2025-03-22T16:36:13.315586+00:00,Cloned Voice,en,03fee039-faf2-4be0-9dd7-4d7351488f2d
