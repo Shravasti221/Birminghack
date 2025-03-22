@@ -29,18 +29,23 @@
             formData.append("file", fileInput.files[0]);
 
             fetch("/upload", { method: "POST", body: formData })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text); });  // Handle non-JSON errors
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (data.wav_file) {
-                        let audioPlayer = document.getElementById("audioPlayer");
-                        audioPlayer.src = "/audio/" + data.wav_file;
-                        audioPlayer.style.display = "block";
+                    let audioPlayer = document.getElementById("audioPlayer");
+                    audioPlayer.src = "/audio/" + data.wav_file;
+                    audioPlayer.style.display = "block";
                     } else {
-                        alert("Error processing file.");
+                    alert("Error processing file.");
                     }
                 })
                 .catch(err => console.error("Upload error:", err));
-        }
+                        }
     </script>
 </body>
 </html>
