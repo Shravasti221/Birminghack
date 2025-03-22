@@ -16,34 +16,12 @@ def extract_text_from_pdf(pdf_path):
         text = "\n".join(page.extract_text() or "" for page in reader.pages)
     return text.strip()
 
-def process_large_text(text, chunk_size=50, overlap=5, process_fn=lambda x: x.upper()):
-    sentences = sent_tokenize(text) 
-    chunks = []
-    i = 0
-
-    while i < len(sentences):
-        chunk = ' '.join(sentences[i:i + chunk_size])
-        processed_chunk = call_groq_api(chunk)  
-        chunks.append(processed_chunk)
-        i += chunk_size - overlap
-    seen_sentences = set()
-    final_output = []
-
-    for chunk in chunks:
-        chunk_sentences = sent_tokenize(chunk)  
-        for sentence in chunk_sentences:
-            if sentence not in seen_sentences:  
-                final_output.append(sentence)
-                seen_sentences.add(sentence)
-
-    return ' '.join(final_output)  
-
 def call_groq_api(text):
     client = Groq(api_key = os.environ.get("GROQ_API_KEY"))
     clean_text = text.replace("\n", "")
     
     completion = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="deepseek-r1-distill-llama-70b",
         messages=[
             {"role": "system", "content": "Process this text and summarize."},
             {"role": "user", "content": """Task: how many characters are there in the story who speak or have a dialogue? list them in the form (character1, character2...,charactern) 
@@ -58,20 +36,45 @@ as explained above, THE OUTPUT SHOULD START WITH:
 
         ],
         temperature=1,
-        max_completion_tokens=100000,
+        max_completion_tokens=10000,
         top_p=1,
         stream=False
     )
     return completion.choices[0].message.content
 
+def process_large_text(text, chunk_size=50, overlap=5, process_fn=lambda x: x.upper()):
+    sentences = sent_tokenize(text) 
+    chunks = []
+    i = 0
+
+    while i < len(sentences):
+        chunk = ' '.join(sentences[i:i + chunk_size])
+        processed_chunk = call_groq_api(chunk)  
+        chunks.append(processed_chunk)
+        i += chunk_size - overlap
+
+    seen_sentences = set()
+    final_output = []
+
+    for chunk in chunks:
+        chunk_sentences = sent_tokenize(chunk)  
+        for sentence in chunk_sentences:
+            if sentence not in seen_sentences:  
+                final_output.append(sentence)
+                seen_sentences.add(sentence)
+
+    return ' '.join(final_output)  
+
 def extract_and_save_text(input_text, filename="groq_output.txt"):
     match = re.search(r"</think>\s*\(.*?\)\s*", input_text)
     if match:
         extracted_text = input_text[match.end():].strip()
-        with open(filename, "w", encoding="utf-8") as f:
-            f.write(extracted_text)
-        return filename
-    return None
+        # with open(filename, "w", encoding="utf-8") as f:
+        #     f.write(extracted_text)
+        return extracted_text
+    else:
+        print(f"Could not extract text from input: {input_text}")
+        return None
 
 def process_voices(text):
     """
