@@ -4,6 +4,7 @@ import wave
 import numpy as np
 from groq import Groq
 from config import Config
+from generate_audio_files import generate_audio_files
 
 def extract_text_from_pdf(pdf_path):
     with open(pdf_path, "rb") as f:
@@ -28,22 +29,8 @@ def call_groq_api(text):
     return completion.choices[0].message.content
 
 def process_voices(text):
-    
-    
-    
-    
-    # sample_rate = 44100
-    # duration = len(text) // 10  # Approximate duration
-    # amplitude = 16000
-    # audio_data = (np.sin(2.0 * np.pi * np.arange(sample_rate * duration) * 440.0 / sample_rate) * amplitude).astype(np.int16)
-
-    # filename = "output.wav"
-    # wav_path = os.path.join(Config.AUDIO_FOLDER, filename)
-
-    # with wave.open(wav_path, "w") as wf:
-    #     wf.setnchannels(1)
-    #     wf.setsampwidth(2)
-    #     wf.setframerate(sample_rate)
-    #     wf.writeframes(audio_data.tobytes())
-
-    return filename
+    """
+    Processes the text and generates audio files
+    Returns the path to the final merged audio file
+    """
+    return generate_audio_files(text)

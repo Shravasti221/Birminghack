@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from load_text import parse_text
+from get_voices import get_voices
 
 def voice_assigner(story_path):
     
@@ -8,11 +9,11 @@ def voice_assigner(story_path):
     Assign voice id's to speakers
     Return the voice assignment dictionary
     """
-
-    cwd = os.getcwd()
+    
+    voices_csv_path = get_voices()
 
     # currently assigning voices randomly (will need to update this later)
-    df_voices = pd.read_csv(os.path.join(cwd, 'voices.csv'))
+    df_voices = pd.read_csv(voices_csv_path)
     voice_id_list = df_voices["voice_id"]
     voice_name_list = df_voices["name"]
 

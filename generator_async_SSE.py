@@ -7,6 +7,7 @@ import pandas as pd
 from load_text import parse_text
 from pyneuphonic._utils import async_save_audio
 from voice_assigner import voice_assigner
+from merge_audio_files import merge_audio_files
 
 def generate_audio_files(story_text_path):
     """
@@ -38,4 +39,9 @@ def generate_audio_files(story_text_path):
                 await async_save_audio(response, os.path.join(cwd, "output_audio", f"output_{index}.wav"))
 
     asyncio.run(main())
+    final_audio_path = merge_audio_files()
+    return final_audio_path
 
+
+path = generate_audio_files(os.path.join(os.getcwd(), "sample_story.txt"))
+print(path)

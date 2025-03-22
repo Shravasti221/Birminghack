@@ -16,7 +16,7 @@ def get_voices():
     voices = response.data['voices']
 
     df_voice = pd.DataFrame(voices)
-    df_voice = df_voice[df_voice['language'] == 'en']  # filter english voices
+    df_voice = df_voice[df_voice['lang_code'] == 'en']  # filter english voices
     save_path = os.path.join(cwd, 'voices.csv')
     df_voice.to_csv(save_path, index=False)
     return save_path
