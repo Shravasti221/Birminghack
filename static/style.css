@@ -1,62 +1,110 @@
 /* Global Reset */
 * {
-    font-family: arial, Tahoma;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap');
+/* Body Styling */
 body {
-    /* background: linear-gradient(to left, #7700aa, #8800ff); */
-    background-color: gray;
-    text-align:center;
-    color:#fff;
-}
-h3{
-    text-shadow:1px 1px 1px #fff;
-}
-input {
-    padding:20px
-}
-label {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff;
+    background: linear-gradient(to right, #a8c0ff, #f6d365, #fda085);
+    text-align: center;
     color: white;
-    cursor: pointer;
-    border-radius: 5px;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1, h2, p {
+    text-shadow: 2px 2px 5px rgba(169, 169, 169, 0.9); /* Gray text shadow */
+}
+/* Container */
+.container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Headings */
+h1 {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+
+p {
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    font-family: 'Dancing Script', cursive;
+    margin-bottom: 20px;
+    color: #444; /* Adjust for better readability */
+}
+/* Upload Section */
+.upload-box {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+input[type="file"] {
     font-size: 16px;
+    padding: 12px;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+    max-width: 300px;
 }
 
-label:hover {
-    background-color: #0056b3;
+/* Hover & Focus Effect */
+input[type="file"]:hover, input[type="file"]:focus {
+    border-color: #0056b3;
+    background: #f0f8ff;
+    outline: none;
+}
+label, button {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-/* Upload button */
+/* Upload Button */
 button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #28a745;
+    background: #28a745;
     color: white;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+    margin-top: 10px;
 }
 
 button:hover {
-    background-color: #218838;
+    background: #218838;
 }
 
-
-/* Start  styling the page */
-.container-audio {
-    width: 66%;
-    height: auto;
-    padding: 20px;
-    border-radius: 5px;
-    background-color: #eee;
+/* Audio Player Section */
+.audio-container {
+    background: rgba(255, 255, 255, 0.3);
     color: #444;
-    margin: 20px auto;
-    overflow: hidden;
+    padding: 15px;
+    border-radius: 8px;
 }
+
 audio {
-  width:100%;
+    width: 100%;
+    margin-top: 10px;
 }
