@@ -17,11 +17,17 @@ def extract_text_from_pdf(pdf_path):
     return text.strip()
 
 def call_groq_api(text):
+<<<<<<< HEAD
     client = Groq(api_key = os.environ.get("GROQ_API_KEY"))
     clean_text = text.replace("\n", "")
     
     completion = client.chat.completions.create(
         model="deepseek-r1-distill-llama-70b",
+=======
+    client = Groq(api_key = os.environ.get("GROQ_API_KEY"))    
+    completion = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+>>>>>>> 3c2fb3999191805d104e7a72229562c8776caae7
         messages=[
             {"role": "system", "content": "Process this text and summarize."},
             {"role": "user", "content": """Task: how many characters are there in the story who speak or have a dialogue? list them in the form (character1, character2...,charactern) 
@@ -32,15 +38,52 @@ and so on for n characters. Assign all background details and text with no speak
 also answer to the point. don't introduce the answer or ask if further assistance is needed at the end. Just stick to the point. (MAKE SURE THAT YOU STICK TO THESE INSTRUCTIONS. I DON'T NEED ANY EXTRA INFORMATION. DON'T EXPLAIN BACK THE TASK TO ME AGAIN,OR PUT HEADINGS FOR THE TWO TASKS) also donot put gestures like 'thinking', 'nodding', 'smiling' to character dialogues. assign such things to narrator. only assign spoken words to character
 as explained above, THE OUTPUT SHOULD START WITH:
 
+<<<<<<< HEAD
 (character1, character2,...charactern)\n\n\n"""+clean_text}
 
         ],
         temperature=1,
         max_completion_tokens=10000,
+=======
+(character1, character2,...charactern)\n\n\n"""+text}
+
+        ],
+        temperature=1,
+        max_completion_tokens=20000,
+>>>>>>> 3c2fb3999191805d104e7a72229562c8776caae7
         top_p=1,
         stream=False
     )
     return completion.choices[0].message.content
+<<<<<<< HEAD
+=======
+
+
+def process_large_text(text, chunk_size=50, overlap=1, process_fn=lambda x: x.upper()):
+    clean_text = text.replace("\n", "")
+
+    sentences = sent_tokenize(clean_text) 
+    chunks = []
+    i = 0
+
+    while i < len(sentences):
+        chunk = ' '.join(sentences[i:i + chunk_size])
+        processed_chunk = call_groq_api(chunk)  
+        chunks.append(processed_chunk)
+        i += chunk_size - overlap
+    seen_sentences = set()
+    final_output = []
+
+    for chunk in chunks:
+        chunk_sentences = sent_tokenize(chunk)  
+        for sentence in chunk_sentences:
+            if sentence not in seen_sentences:  
+                final_output.append(sentence)
+                seen_sentences.add(sentence)
+
+    return ' '.join(final_output)  
+
+>>>>>>> 3c2fb3999191805d104e7a72229562c8776caae7
 
 def process_large_text(text, chunk_size=50, overlap=5, process_fn=lambda x: x.upper()):
     sentences = sent_tokenize(text) 
