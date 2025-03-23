@@ -1,7 +1,16 @@
 import os
 from flask import request, render_template, send_file, jsonify
 from werkzeug.utils import secure_filename
-from utils import extract_text_from_pdf, call_groq_api, process_voices, extract_and_save_text, process_large_text
+from utils import (
+    extract_text_from_pdf,
+    call_groq_api,
+    process_voices,
+    extract_and_save_text,
+    process_large_text,
+    get_characters,
+    get_frequent_characters,
+    available_voices
+)
 from config import Config
 
 def init_routes(app):
@@ -21,10 +30,23 @@ def init_routes(app):
         filename = secure_filename(file.filename)
         filepath = os.path.join(Config.UPLOAD_FOLDER, filename)
         file.save(filepath)
+        text = extract_text_from_pdf(filepath)
+        characters = get_characters(filepath)
+        
+        groq_response = process_large_text(text)
+        frequent_characters = get_frequent_characters(groq_response, characters)
+        
+        return jsonify({"characters": frequent_characters, "voices": available_voices()})
+
+    @app.route("/process_story", methods=["POST"])
+    
+    def process_story():
+        data = request.json
+        filepath = data.get("filepath")
 
         text = extract_text_from_pdf(filepath)
-        groq_response=process_large_text(text)
-        response_text=extract_and_save_text(groq_response)
+        groq_response = process_large_text(text)
+        response_text = extract_and_save_text(groq_response)
 
         wav_path = process_voices(response_text)
 

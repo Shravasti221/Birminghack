@@ -8,7 +8,15 @@ from generator_async_SSE import generate_audio_files
 from nltk.tokenize import sent_tokenize
 nltk.download('punkt')
 
+def available_voices():
+    # @ Anshuman
+    return ["Voice1", "Voice2", "Voice3", "Voice4", "Voice5"]
 
+def get_characters(pdf_path):
+    pass # @Mansha
+
+def get_frequent_characters(text, characters):
+    pass # @Anshuman/Mansha
 
 def extract_text_from_pdf(pdf_path):
     with open(pdf_path, "rb") as f:

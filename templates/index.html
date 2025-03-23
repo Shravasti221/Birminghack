@@ -10,17 +10,24 @@
 <body>
     <div class="container">
         <h1>Dynamic Storytelling</h1>
-        <p>Convert your PDF into lifelike audio</p>
+        <p>Where stories come to life</p>
 
         <div class="upload-box">
             <h2>Upload a PDF</h2>
             <input type="file" id="pdfUpload">
             <button onclick="uploadPDF()">Upload</button>
-    </div>
+        </div>
 
-    <div class="audio-container">
-        <h3>Generated Audio</h3>
-        <audio id="audioPlayer" controls style="display: none;"></audio>
+        <div id="character-selection" style="display: none;">
+            <h3>Select Voices for Characters</h3>
+            <div id="character-list"></div>
+            <button id="confirmSelection" onclick="processStory()">Confirm</button>
+        </div>
+
+        <div class="audio-container">
+            <h3>Generated Audio</h3>
+            <audio id="audioPlayer" controls style="display: none;"></audio>
+        </div>
     </div>
 
     <script>
@@ -35,12 +42,35 @@
             formData.append("file", fileInput.files[0]);
 
             fetch("/upload", { method: "POST", body: formData })
-            .then(response => {
-                    if (!response.ok) {
-                    return response.text().then(text => { throw new Error(text); });  // Handle non-JSON errors
+                .then(response => response.json())
+                .then(data => {
+                    if (data.characters) {
+                        let characterList = document.getElementById("character-list");
+                        characterList.innerHTML = "";
+                        data.characters.forEach(character => {
+                            let div = document.createElement("div");
+                            div.innerHTML = `
+                                <img src="/static/images/${character}.png" alt="${character}" class="character-img">
+                                <label>${character}</label>
+                                <select>
+                                    ${data.voices.map(voice => `<option value="${voice}">${voice}</option>`).join("")}
+                                </select>
+                            `;
+                            characterList.appendChild(div);
+                        });
+                        document.getElementById("character-selection").style.display = "block";
                     }
-                    return response.json();
-                })                
+                })
+                .catch(err => console.error("Upload error:", err));
+        }
+
+        function processStory() {
+            let button = document.getElementById("confirmSelection");
+            button.innerHTML = "Processing...";
+            button.disabled = true;
+
+            fetch("/process_story", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ filepath: "path_to_file" }) })
+                .then(response => response.json())
                 .then(data => {
                     if (data.wav_file) {
                         let audioPlayer = document.getElementById("audioPlayer");
@@ -50,7 +80,11 @@
                         alert("Error processing file.");
                     }
                 })
-                .catch(err => console.error("Upload error:", err));
+                .finally(() => {
+                    button.innerHTML = "Confirm";
+                    button.disabled = false;
+                })
+                .catch(err => console.error("Process error:", err));
         }
     </script>
 </body>
