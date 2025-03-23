@@ -52,7 +52,7 @@ Strictly follow these constraints without deviation. Output should start immedia
 
 
 def extract_and_save_text(input_text, filename="groq_output.txt"):
-    match = re.search(r"</think>\s*\(.*?\)\s*", input_text)
+    match = re.search(r"</think>\s*", input_text)
     if match:
         extracted_text = input_text[match.end():].strip()
         '''with open(filename, "w", encoding="utf-8") as f:
