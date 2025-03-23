@@ -45,8 +45,8 @@ def init_routes(app):
         filepath = data.get("filepath")
 
         text = extract_text_from_pdf(filepath)
-        groq_response = process_large_text(text)
-        response_text = extract_and_save_text(groq_response)
+        groq_response=call_groq_api(text)
+        response_text=extract_and_save_text(groq_response)
 
         wav_path = process_voices(response_text)
 
