@@ -6,7 +6,6 @@ from utils import (
     call_groq_api,
     process_voices,
     extract_and_save_text,
-    process_large_text,
     get_characters,
     get_frequent_characters,
     available_voices
@@ -33,7 +32,7 @@ def init_routes(app):
         text = extract_text_from_pdf(filepath)
         characters = get_characters(filepath)
         
-        groq_response = process_large_text(text)
+        groq_response = call_groq_api(text)
         frequent_characters = get_frequent_characters(groq_response, characters)
         
         return jsonify({"characters": frequent_characters, "voices": available_voices()})

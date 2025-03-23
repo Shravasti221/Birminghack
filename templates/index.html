@@ -37,10 +37,10 @@
                 alert("Select a PDF file first.");
                 return;
             }
-
+    
             let formData = new FormData();
             formData.append("file", fileInput.files[0]);
-
+    
             fetch("/upload", { method: "POST", body: formData })
                 .then(response => response.json())
                 .then(data => {
@@ -50,11 +50,13 @@
                         data.characters.forEach(character => {
                             let div = document.createElement("div");
                             div.innerHTML = `
-                                <img src="/static/images/${character}.png" alt="${character}" class="character-img">
-                                <label>${character}</label>
-                                <select>
-                                    ${data.voices.map(voice => `<option value="${voice}">${voice}</option>`).join("")}
-                                </select>
+                                <div class="character-container">
+                                    <img src="/static/images/${character}.png" alt="${character}" class="character-img">
+                                    <label>${character}</label>
+                                    <select id="voice-${character}">
+                                        ${data.voices.map(voice => `<option value="${voice[0]}">${voice[1]}</option>`).join("")}
+                                    </select>
+                                </div>
                             `;
                             characterList.appendChild(div);
                         });
@@ -63,29 +65,40 @@
                 })
                 .catch(err => console.error("Upload error:", err));
         }
-
+    
         function processStory() {
             let button = document.getElementById("confirmSelection");
             button.innerHTML = "Processing...";
             button.disabled = true;
-
-            fetch("/process_story", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ filepath: "path_to_file" }) })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.wav_file) {
-                        let audioPlayer = document.getElementById("audioPlayer");
-                        audioPlayer.src = "/audio/" + data.wav_file;
-                        audioPlayer.style.display = "block";
-                    } else {
-                        alert("Error processing file.");
-                    }
-                })
-                .finally(() => {
-                    button.innerHTML = "Confirm";
-                    button.disabled = false;
-                })
-                .catch(err => console.error("Process error:", err));
+    
+            let characterVoiceMap = {};
+            document.querySelectorAll(".character-container").forEach(container => {
+                let character = container.querySelector("label").innerText;
+                let selectedVoice = container.querySelector("select").value;
+                characterVoiceMap[character] = selectedVoice;
+            });
+    
+            fetch("/process_story", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ character_voice_map: characterVoiceMap })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.wav_file) {
+                    let audioPlayer = document.getElementById("audioPlayer");
+                    audioPlayer.src = "/audio/" + data.wav_file;
+                    audioPlayer.style.display = "block";
+                } else {
+                    alert("Error processing file.");
+                }
+            })
+            .finally(() => {
+                button.innerHTML = "Confirm";
+                button.disabled = false;
+            })
+            .catch(err => console.error("Process error:", err));
         }
-    </script>
+    </script>    
 </body>
 </html>
