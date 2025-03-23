@@ -69,7 +69,7 @@ def call_groq_api(text, characters):
   person2: spoken words 
   (Continue for all characters)  
 
-- All background details, descriptions, and text without a speaker must be assigned to the narrator.  
+- All background details, thoughts, descriptions, and text that don't have an associated speaker must be assigned to the narrator.  
 - Do not modify or paraphrase any words. Keep everything exactly as it is.
 - Do not add any character which doesn't have any dialogue except the narrator.  
 - Do not add scene headings or structure beyond the skit format.  
