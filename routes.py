@@ -31,8 +31,14 @@ def init_routes(app):
         file.save(filepath)
         text = extract_text_from_pdf(filepath)
         characters = get_characters(text)
-        
-        groq_response = call_groq_api(text)
+        char_gender_pairs = characters.split(", ")
+        char_gender_pairs = [tuple(x.split(":")) for x in char_gender_pairs]
+        chars_gender_path = os.path.join(os.getcwd(), "chars_gender.txt")
+        with open(chars_gender_path, "w") as f:
+            for pair in char_gender_pairs:
+                f.write(f"{pair[0]}: {pair[1]}\n")
+        characters = [pair[0] for pair in char_gender_pairs]
+        groq_response = call_groq_api(text, characters)
         response_text=extract_and_save_text(groq_response)
         
         file_path = os.path.join(os.getcwd(), "sample_story.txt")
