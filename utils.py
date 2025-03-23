@@ -18,8 +18,32 @@ def available_voices():
     voice_name_list = df_voices["name"]
     return list(zip(voice_id_list, voice_name_list))
 
-def get_characters(pdf_path):
-    pass # @Mansha
+def get_characters(text):
+    client = Groq(api_key = os.environ.get("GROQ_API_KEY"))    
+    clean_text = text.replace("\n", "")
+    completion = client.chat.completions.create(
+        model="deepseek-r1-distill-llama-70b",
+        messages=[
+            {"role": "system", "content": "do as directed below and strictly follow the instructions. I need name"},
+            {"role": "user", "content": """"Extract all character names or titles from the following story and return them in the JSON format: {'character1': 'gender', 'character2': 'gender', ...}. If the gender is not explicitly mentioned, label it as 'inconclusive'. Do not include non-character entities.
+Give answer in text form and don't include any extra information at the beginning or end of response."""+clean_text}
+
+        ],
+        temperature=0.6,
+        max_completion_tokens=50000,
+        top_p=1,
+        stream=False
+    )
+    output= completion.choices[0].message.content
+    match = re.search(r"</think>\s*", output)
+    if match:
+        extracted_text = output[match.end():].strip()
+
+        return extracted_text
+    else:
+        return output
+
+
 
 def get_frequent_characters(text, characters):
     appearances = []
@@ -40,8 +64,8 @@ def call_groq_api(text):
     completion = client.chat.completions.create(
         model="deepseek-r1-distill-llama-70b",
         messages=[
-            {"role": "user", "content": "do as directed below and strictly follow the instructions. DO NOT SUMMARIZE. any text without a speaker must be assigned to the narrator."},
-            {"role": "system", "content": """"I am giving you a text. Convert the entire text into a drama skit format with the following structure:  
+            {"role": "system", "content": "do as directed below and strictly follow the instructions. DO NOT SUMMARIZE. any text without a speaker must be assigned to the narrator."},
+            {"role": "user", "content": """"I am giving you a text. Convert the entire text into a drama skit format with the following structure:  
 
 - Assign spoken dialogue to characters in this format:  
   person1: spoken words (replace with actual words spoken)
