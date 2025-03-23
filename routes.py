@@ -41,7 +41,7 @@ def init_routes(app):
                 f.write(f"{pair[0]}: {pair[1]}\n")
         characters = [pair[0] for pair in char_gender_pairs]
         groq_response = call_groq_api(text, characters)
-        print("OOOOOO Characters: ", characters)
+        print("Characters from first LLM call: ", characters)
         response_text=extract_and_save_text(groq_response)
         
         file_path = os.path.join(os.getcwd(), "sample_story.txt")

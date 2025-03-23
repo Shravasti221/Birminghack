@@ -28,8 +28,8 @@ def get_characters(text):
         model="deepseek-r1-distill-llama-70b",
         messages=[
             {"role": "system", "content": "do as directed below and strictly follow the instructions. I need name. DONOT answer in json format. answer in text form."},
-            {"role": "user", "content": """"Extract all character names or titles from the following story and return them in the following format: "{'character1': 'gender', 'character2': 'gender', ...}". The format has each 'character:gender' pair separated by a comma. If the gender is not explicitly mentioned, mention the label as 'inconclusive'. Do not include non-character entities.
-Give answer in text form and don't include any extra information at the beginning or end of response."""+ "story: " + clean_text}
+            {"role": "user", "content": """"Extract all character names which have a dialogue in the following story and return them in the following format: "'character1': 'gender', 'character2': 'gender', ...". The format has each 'character:gender' pair separated by a "comma". If the gender of the speaker is not explicitly mentioned, mention the gender label as 'inconclusive'. Do not include non-character entities.
+Assign unique character name identifiers to each character and ensure that the name identifier is a single word doesn't have any space or word break in it. Use numerals to differentiate between two characters with similar character names, e.g. "stepsister1", "stepsister2". Give answer in text form and don't include any extra information at the beginning or end of response."""+ " The story is as follows: " + clean_text + "\n\n Make sure to follow the format 'character1': 'gender', 'character2': 'gender'."}
         ],
         temperature=0.6,
         max_completion_tokens=50000,
@@ -41,7 +41,6 @@ Give answer in text form and don't include any extra information at the beginnin
     match = re.search(r"</think>\s*", output)
     if match:
         extracted_text = output[match.end():].strip()
-
         return extracted_text
     else:
         return output
@@ -65,13 +64,14 @@ def call_groq_api(text, characters):
             {"role": "system", "content": f"do as directed below and strictly follow the instructions. DO NOT SUMMARIZE. any text without a speaker must be assigned to the narrator. The following characters are present in the story: {characters}. Assign spoken dialogue to these characters."},
             {"role": "user", "content": """"I am giving you a text. Convert the entire text into a drama skit format with the following structure:  
 
-- Assign spoken dialogue to characters in this format:  
+- Assign spoken dialogue to only those characters which have spoken dialogue in the given story. Use the following format:  
   person1: spoken words (replace with actual words spoken)
   person2: spoken words 
   (Continue for all characters)  
 
 - All background details, descriptions, and text without a speaker must be assigned to the narrator.  
-- Do not modify or paraphrase any words. Keep everything exactly as it is.  
+- Do not modify or paraphrase any words. Keep everything exactly as it is.
+- Do not add any character which doesn't have any dialogue except the narrator.  
 - Do not add scene headings or structure beyond the skit format.  
 - Do not explain the speaker’s intent, audience, or actions within the dialogue.  
 - Do not include gestures like 'thinking,' 'nodding,' or 'smiling' within character dialogues. Assign such descriptions to the narrator.  
@@ -82,7 +82,7 @@ Strictly follow these constraints without deviation. Output should start immedia
 \n\n\n"""+clean_text}
 
         ],
-        temperature=0.6,
+        temperature=0.7,
         max_completion_tokens=100000,
         top_p=1,
         stream=False

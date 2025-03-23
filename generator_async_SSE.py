@@ -18,9 +18,9 @@ def generate_audio_files(story_text_path, character2voice):
     load_dotenv(dotenv_path=os.path.join(cwd, ".env"))
 
     # returning text list containing (index, speaker, speech) and unique speakers
-    text, _ = parse_text(story_text_path)
+    text, unique_speakers = parse_text(story_text_path)
     voice_assigment = voice_assigner(character2voice)
-
+    print(f"Characters from second LLM call: {unique_speakers}")
     async def main():
         
         client = Neuphonic(api_key=os.environ.get('NEUPHONIC_API_KEY'))
@@ -36,7 +36,7 @@ def generate_audio_files(story_text_path, character2voice):
                 voice_assigment[speaker]
             except KeyError:
                 voice_assigment[speaker] = "b19687fd-c5c9-4bda-9d52-756c3b10c88e"
-            tts_config = TTSConfig(speed=1, lang_code='en', voice_id=voice_assigment[speaker])
+            tts_config = TTSConfig(speed=0.85, lang_code='en', voice_id=voice_assigment[speaker])
 
             async with AsyncAudioPlayer() as player:
                 response = sse.send(speech, tts_config=tts_config)
