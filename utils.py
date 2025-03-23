@@ -23,19 +23,27 @@ def call_groq_api(text):
     completion = client.chat.completions.create(
         model="deepseek-r1-distill-llama-70b",
         messages=[
-            {"role": "system", "content": "Process this text and summarize."},
-            {"role": "user", "content": """Task: how many characters are there in the story who speak or have a dialogue? list them in the form (character1, character2...,charactern) 
-Also restructure the entire text to the form of a drama skit. (like in the format given below):
-person1 (whoever it is):
-person2 (whoever it is):
-and so on for n characters. Assign all background details and text with no speakers to the narrator. don't modify words or any other details and donot include headings like scene 1, 2 etc. or explain who the speaker is talking to, unless explicitly mentioned in the text itself.
-also answer to the point. start from a new line everytime the speaker changes. don't introduce the answer or ask if further assistance is needed at the end. Just stick to the point. (MAKE SURE THAT YOU STICK TO THESE INSTRUCTIONS. I DON'T NEED ANY EXTRA INFORMATION. DON'T EXPLAIN BACK THE TASK TO ME AGAIN,OR PUT HEADINGS FOR THE TWO TASKS) also donot put gestures like 'thinking', 'nodding', 'smiling' to character dialogues. assign such things to narrator. only assign spoken words to character
-as explained above, THE OUTPUT SHOULD START WITH:
+            {"role": "user", "content": "do as directed below and strictly follow the instructions. DO NOT SUMMARIZE. any text without a speaker must be assigned to the narrator."},
+            {"role": "system", "content": """"I am giving you a text. Convert the entire text into a drama skit format with the following structure:  
 
-(character1, character2,...charactern)\n\n\n"""+clean_text}
+- Assign spoken dialogue to characters in this format:  
+  person1: spoken words (replace with actual words spoken)
+  person2: spoken words 
+  (Continue for all characters)  
+
+- All background details, descriptions, and text without a speaker must be assigned to the narrator.  
+- Do not modify or paraphrase any words. Keep everything exactly as it is.  
+- Do not add scene headings or structure beyond the skit format.  
+- Do not explain the speaker’s intent, audience, or actions within the dialogue.  
+- Do not include gestures like 'thinking,' 'nodding,' or 'smiling' within character dialogues. Assign such descriptions to the narrator.  
+- Do not introduce or summarize the task. Begin directly with the skit format.  
+- Start a new line for each change in speaker.  
+
+Strictly follow these constraints without deviation. Output should start immediately in the required format.
+\n\n\n"""+clean_text}
 
         ],
-        temperature=1,
+        temperature=0.6,
         max_completion_tokens=100000,
         top_p=1,
         stream=False
@@ -52,8 +60,6 @@ def extract_and_save_text(input_text, filename="groq_output.txt"):
         return extracted_text
     else:
         print(f"Could not extract text from input: {input_text}")
-        return input_text
-        # print(f"Could not extract text from input: {input_text}")
         return input_text
 
 def process_voices(text):
