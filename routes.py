@@ -8,7 +8,8 @@ from utils import (
     extract_and_save_text,
     get_characters,
     get_frequent_characters,
-    available_voices
+    available_voices,
+    clean_text
 )
 from config import Config
 
@@ -32,7 +33,7 @@ def init_routes(app):
         text = extract_text_from_pdf(filepath)
         characters = get_characters(text)
         char_gender_pairs = characters.split(", ")
-        char_gender_pairs = [tuple(x.split(":")) for x in char_gender_pairs]
+        char_gender_pairs = [tuple((clean_text(x.split(":")[0]), clean_text(x.split(":")[1]))) for x in char_gender_pairs]
         chars_gender_path = os.path.join(os.getcwd(), "chars_gender.txt")
         with open(chars_gender_path, "w") as f:
             for pair in char_gender_pairs:
@@ -53,9 +54,8 @@ def init_routes(app):
     
     def process_story():
         data = request.json
-        filepath = data.get("filepath")
-
-        wav_path = process_voices("sample_story.txt")
+        character2voice = data.get("character_voice_map")
+        wav_path = process_voices("sample_story.txt", character2voice)
 
         return jsonify({"wav_file": wav_path})
 

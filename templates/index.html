@@ -51,10 +51,9 @@
                             let div = document.createElement("div");
                             div.innerHTML = `
                                 <div class="character-container">
-                                    <img src="/static/images/${character}.png" alt="${character}" class="character-img">
                                     <label>${character}</label>
                                     <select id="voice-${character}">
-                                        ${data.voices.map(voice => `<option value="${voice[0]}">${voice[1]}</option>`).join("")}
+                                        ${data.voices.map(voice => `<option value="${voice[1]}">${voice[1]}</option>`).join("")}
                                     </select>
                                 </div>
                             `;

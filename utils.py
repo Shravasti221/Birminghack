@@ -11,6 +11,9 @@ nltk.download('punkt')
 from get_voices import get_voices
 import pandas as pd
 
+def clean_text(s):
+    return re.sub(r'^[^a-zA-Z]+|[^a-zA-Z]+$', '', s)
+
 def available_voices():
     voices_csv_path = get_voices()
     df_voices = pd.read_csv(voices_csv_path)
@@ -99,10 +102,10 @@ def extract_and_save_text(input_text, filename="groq_output.txt"):
         print(f"Could not extract text from input: {input_text}")
         return input_text
 
-def process_voices(file_path):
+def process_voices(file_path, character2voice):
     """
     Processes the text and generates audio files
     Returns the path to the final merged audio file
     """
-
+    print("Process voices utils filepath:", character2voice)
     return generate_audio_files(file_path)
