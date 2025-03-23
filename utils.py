@@ -24,7 +24,7 @@ def get_characters(text):
     completion = client.chat.completions.create(
         model="deepseek-r1-distill-llama-70b",
         messages=[
-            {"role": "system", "content": "do as directed below and strictly follow the instructions. I need name"},
+            {"role": "system", "content": "do as directed below and strictly follow the instructions. I need name. DONOT answer in json format. answer in text form."},
             {"role": "user", "content": """"Extract all character names or titles from the following story and return them in the JSON format: {'character1': 'gender', 'character2': 'gender', ...}. If the gender is not explicitly mentioned, label it as 'inconclusive'. Do not include non-character entities.
 Give answer in text form and don't include any extra information at the beginning or end of response."""+clean_text}
 
@@ -35,6 +35,7 @@ Give answer in text form and don't include any extra information at the beginnin
         stream=False
     )
     output= completion.choices[0].message.content
+    print(output)
     match = re.search(r"</think>\s*", output)
     if match:
         extracted_text = output[match.end():].strip()
@@ -45,9 +46,10 @@ Give answer in text form and don't include any extra information at the beginnin
 
 def get_frequent_characters(text, characters):
     appearances = []
-    for character in eval(characters).keys():
+    for character in re.findall(r'"([^"]+)"(?=\s*:)', characters):
         appearances.append(character, text.count(character))
     appearances.sort(key=lambda x: x[1], reverse=True)
+    print("!!", appearances[:5])
     return [char[0] for char in appearances[:5]]
 
 def extract_text_from_pdf(pdf_path):
