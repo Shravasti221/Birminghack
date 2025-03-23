@@ -33,6 +33,12 @@ def init_routes(app):
         characters = get_characters(filepath)
         
         groq_response = call_groq_api(text)
+        response_text=extract_and_save_text(groq_response)
+        
+        file_path = os.path.join(os.getcwd(), "sample_story.txt")
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(response_text)
+        # drama format saved in sample_story.txt
         frequent_characters = get_frequent_characters(groq_response, characters)
         
         return jsonify({"characters": frequent_characters, "voices": available_voices()})
@@ -42,10 +48,6 @@ def init_routes(app):
     def process_story():
         data = request.json
         filepath = data.get("filepath")
-
-        text = extract_text_from_pdf(filepath)
-        groq_response=call_groq_api(text)
-        response_text=extract_and_save_text(groq_response)
 
         wav_path = process_voices(response_text)
 

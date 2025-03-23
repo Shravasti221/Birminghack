@@ -22,7 +22,11 @@ def get_characters(pdf_path):
     pass # @Mansha
 
 def get_frequent_characters(text, characters):
-    pass # @Anshuman/Mansha
+    pass
+    # for character, gender in characters:
+    #     character["count"] = text.count(character["name"])
+    # characters.sort(key=lambda x: x["count"], reverse=True)
+    # return characters[:5]
 
 def extract_text_from_pdf(pdf_path):
     with open(pdf_path, "rb") as f:
@@ -75,14 +79,10 @@ def extract_and_save_text(input_text, filename="groq_output.txt"):
         print(f"Could not extract text from input: {input_text}")
         return input_text
 
-def process_voices(text):
+def process_voices(file_path):
     """
     Processes the text and generates audio files
     Returns the path to the final merged audio file
     """
-    file_path = os.path.join(os.getcwd(), "sample_story.txt")
-    
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(text)
 
     return generate_audio_files(file_path)
