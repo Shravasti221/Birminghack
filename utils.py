@@ -108,4 +108,4 @@ def process_voices(file_path, character2voice):
     Returns the path to the final merged audio file
     """
     print("Process voices utils filepath:", character2voice)
-    return generate_audio_files(file_path)
+    return generate_audio_files(file_path, character2voice)

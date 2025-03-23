@@ -3,7 +3,7 @@ import pandas as pd
 from load_text import parse_text
 from get_voices import get_voices
 
-def voice_assigner(story_path, char_voice_dict):
+def voice_assigner(char_voice_dict):
     
     """
     Assign voice id's to speakers
@@ -62,5 +62,5 @@ def voice_assigner(story_path, char_voice_dict):
                         break
                     else:
                         continue
-                    
+
     return voice_assigment

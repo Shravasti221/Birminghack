@@ -9,17 +9,17 @@ from pyneuphonic._utils import async_save_audio
 from voice_assigner import voice_assigner
 from merge_audio_files import merge_audio_files
 
-def generate_audio_files(story_text_path):
+def generate_audio_files(story_text_path, character2voice):
     """
     Generates audio files from the text file and stores it into the output_audio folder
-    Takes the path to processed story text file as input
+    Takes the path to processed story text file and preferred character voice dictionary as input
     """
     cwd = os.getcwd()
     load_dotenv(dotenv_path=os.path.join(cwd, ".env"))
 
     # returning text list containing (index, speaker, speech) and unique speakers
-    text, unique_speakers = parse_text(story_text_path)
-    voice_assigment = voice_assigner(story_text_path)
+    text, _ = parse_text(story_text_path)
+    voice_assigment = voice_assigner(character2voice)
 
     async def main():
         
