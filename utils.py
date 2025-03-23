@@ -43,11 +43,9 @@ Give answer in text form and don't include any extra information at the beginnin
     else:
         return output
 
-
-
 def get_frequent_characters(text, characters):
     appearances = []
-    for character in characters.keys():
+    for character in eval(characters).keys():
         appearances.append(character, text.count(character))
     appearances.sort(key=lambda x: x[1], reverse=True)
     return [char[0] for char in appearances[:5]]
