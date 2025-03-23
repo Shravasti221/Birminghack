@@ -1,43 +1,50 @@
 /* Global Reset */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Poppins:wght@300;400;600&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap');
+
 /* Body Styling */
 body {
-    background: linear-gradient(to right, #a8c0ff, #f6d365, #fda085);
+    background: linear-gradient(to right, #b3cdd1, #f8d7da, #ffeacc); /* Softer pastel gradient */
     text-align: center;
-    color: white;
+    color: #444; /* Darker text for readability */
     padding: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
 }
 
-h1, h2, p {
-    text-shadow: 2px 2px 5px rgba(169, 169, 169, 0.9); /* Gray text shadow */
-}
 /* Container */
 .container {
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
+    max-width: 650px;
+    width: 100%;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
 /* Headings */
 h1 {
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 600;
     margin-bottom: 10px;
+    color: #2c3e50;
+    text-shadow: 2px 2px 5px rgba(169, 169, 169, 0.8);
 }
 
+h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
 
 p {
     font-size: 18px;
@@ -45,41 +52,44 @@ p {
     font-style: italic;
     font-family: 'Dancing Script', cursive;
     margin-bottom: 20px;
-    color: #444; /* Adjust for better readability */
+    color: #5a5a5a;
 }
+
 /* Upload Section */
 .upload-box {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.4);
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     margin-bottom: 20px;
 }
 
+/* Input Styling */
 input[type="file"] {
     font-size: 16px;
     padding: 12px;
-    border: 2px solid #007bff;
+    border: 2px dashed #007bff;
     border-radius: 6px;
     background: white;
     color: #333;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     width: 100%;
-    max-width: 300px;
+    max-width: 320px;
 }
 
-/* Hover & Focus Effect */
 input[type="file"]:hover, input[type="file"]:focus {
     border-color: #0056b3;
     background: #f0f8ff;
     outline: none;
 }
+
+/* Label & Button Styling */
 label, button {
     display: inline-block;
     padding: 12px 20px;
     font-size: 16px;
     font-weight: 500;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -90,18 +100,62 @@ button {
     color: white;
     border: none;
     margin-top: 10px;
+    font-size: 16px;
+    transition: 0.3s ease;
 }
 
 button:hover {
     background: #218838;
+    transform: scale(1.05);
+}
+
+/* Character Selection */
+#character-selection {
+    background: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+#character-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.character-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+}
+
+select {
+    padding: 8px;
+    border-radius: 5px;
+    margin-top: 5px;
+    border: 1px solid #bbb;
+}
+
+/* Confirm Button */
+#confirmSelection {
+    background: #ff6b6b;
+    margin-top: 15px;
+}
+
+#confirmSelection:hover {
+    background: #e74c3c;
 }
 
 /* Audio Player Section */
 .audio-container {
-    background: rgba(255, 255, 255, 0.3);
-    color: #444;
+    background: rgba(255, 255, 255, 0.4);
     padding: 15px;
     border-radius: 8px;
+    margin-top: 20px;
+    color: #444;
 }
 
 audio {

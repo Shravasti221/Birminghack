@@ -15,9 +15,10 @@
         <div class="upload-box">
             <h2>Upload a PDF</h2>
             <input type="file" id="pdfUpload">
-            <button onclick="uploadPDF()">Upload</button>
+            <button id="confirmUpload" onclick="uploadPDF()">Upload</button>
         </div>
 
+        
         <div id="character-selection" style="display: none;">
             <h3>Select Voices for Characters</h3>
             <div id="character-list"></div>
@@ -28,11 +29,16 @@
             <h3>Generated Audio</h3>
             <audio id="audioPlayer" controls style="display: none;"></audio>
         </div>
+        
     </div>
 
     <script>
         function uploadPDF() {
             let fileInput = document.getElementById("pdfUpload");
+            let button = document.getElementById("confirmUpload");
+            button.innerHTML = "Processing...";
+            button.disabled = true;
+
             if (!fileInput.files.length) {
                 alert("Select a PDF file first.");
                 return;
@@ -62,6 +68,10 @@
                         document.getElementById("character-selection").style.display = "block";
                     }
                 })
+                .finally(() => {
+                button.innerHTML = "Uploaded";
+                button.disabled = false;
+            })
                 .catch(err => console.error("Upload error:", err));
         }
     
