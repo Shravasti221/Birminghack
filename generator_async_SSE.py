@@ -27,11 +27,15 @@ def generate_audio_files(story_text_path, character2voice):
         sse = client.tts.AsyncSSEClient()
 
         for line in text:
-            speaker = line[1]
+            speaker = line[1].lower()
             speech = line[2]
             index = line[0]
 
             # Set the desired configurations: playback speed and voice
+            try:
+                voice_assigment[speaker]
+            except KeyError:
+                voice_assigment[speaker] = "b19687fd-c5c9-4bda-9d52-756c3b10c88e"
             tts_config = TTSConfig(speed=1, lang_code='en', voice_id=voice_assigment[speaker])
 
             async with AsyncAudioPlayer() as player:
