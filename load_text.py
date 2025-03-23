@@ -51,7 +51,7 @@ def parse_text(file_path):
     # Add the last speaker and their speech if any
     if current_speaker is not None and current_speech_lines:
         speech = ' '.join(current_speech_lines).strip()
-        text_list.append((count, current_speaker, speech))
+        text_list.append((count, current_speaker.lower(), speech))
 
     # Get unique speakers
     unique_speakers = list(set(speaker for _, speaker, _ in text_list))

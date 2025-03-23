@@ -1,7 +1,7 @@
-Cinderella:  female
-Father:  male
-Stepmother:  female
-Stepsister:  female
-King:  male
-Prince:  male
-Cinderella's mother:  female
+Cinderella: Female
+Mother: Female
+Father: Male
+Stepmother: Female
+Stepsister: Female
+Stepsister: Female
+Prince: Male
