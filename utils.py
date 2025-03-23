@@ -22,11 +22,11 @@ def get_characters(pdf_path):
     pass # @Mansha
 
 def get_frequent_characters(text, characters):
-    pass
-    # for character, gender in characters:
-    #     character["count"] = text.count(character["name"])
-    # characters.sort(key=lambda x: x["count"], reverse=True)
-    # return characters[:5]
+    appearances = []
+    for character in characters.keys():
+        appearances.append(character, text.count(character))
+    appearances.sort(key=lambda x: x[1], reverse=True)
+    return [char[0] for char in appearances[:5]]
 
 def extract_text_from_pdf(pdf_path):
     with open(pdf_path, "rb") as f:

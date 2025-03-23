@@ -30,7 +30,7 @@ def init_routes(app):
         filepath = os.path.join(Config.UPLOAD_FOLDER, filename)
         file.save(filepath)
         text = extract_text_from_pdf(filepath)
-        characters = get_characters(filepath)
+        characters = get_characters(text)
         
         groq_response = call_groq_api(text)
         response_text=extract_and_save_text(groq_response)
@@ -49,7 +49,7 @@ def init_routes(app):
         data = request.json
         filepath = data.get("filepath")
 
-        wav_path = process_voices(response_text)
+        wav_path = process_voices("sample_story.txt")
 
         return jsonify({"wav_file": wav_path})
 
