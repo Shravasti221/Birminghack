@@ -17,3 +17,8 @@ In the end, we were able to build something that we truly loved bringing to life
 Turn your text into a star-studded performance. With StoryPhonic, your stories don’t just get told—they get performed.
 
 Are you ready to make your words legendary?
+
+**Project creators:**
+1. Shravasti Sarkar (https://github.com/Shravasti221)
+2. Mansha Ahuja (https://github.com/mansha-ahuja)
+3. Anshuman Singh (https://github.com/anshuman1823)
